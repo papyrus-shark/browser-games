@@ -1,84 +1,89 @@
-const bgm = document.getElementById("bgm");
-const clickSound = document.getElementById("click-sound");
-
-// 音量を設定
-bgm.volume = 0.3;  // BGM音量を30%に設定
-clickSound.volume = 0.2;  // クリック音の音量を20%に設定
-
-// すべての問題を準備
-const allQuestions = [
-    { question: "日本の首都はどこ？", options: ["大阪", "東京", "京都", "福岡"], answer: 1 },
-    { question: "地球は何番目の惑星？", options: ["3番目", "4番目", "5番目", "6番目"], answer: 0 },
-    { question: "富士山の標高は？", options: ["3,776m", "2,500m", "4,001m", "3,000m"], answer: 0 },
-    { question: "日本の国花は？", options: ["桜", "梅", "菊", "チューリップ"], answer: 0 },
-    { question: "日本の最北端にある島は？", options: ["択捉島", "沖縄本島", "佐渡島", "屋久島"], answer: 0 },
-
-    { question: "1+1=", options: ["0", "2", "3", "1"], answer: 1 },
-            { question: "2+3=", options: ["5", "4", "6", "3"], answer: 0 },
-            { question: "小学生が背負うものといえば何？", options: ["ランドセル", "おじさん", "ロケット", "借金"], answer: 0 },
-            { question: "全然部活に来ない人のこと", options: ["部長", "帰宅部", "怨霊部員", "幽霊部員"], answer: 3 },
-            { question: "Do you know yomogi?", options: ["yes", "はい", "もちろん", "うん"], answer: all },
-    // 30問用意
+// クイズの問題と選択肢
+const questions = [
+    {
+        question: "日本の首都はどこですか？",
+        options: ["京都", "大阪", "東京", "福岡"],
+        answer: 2 // 正解は「東京」
+    },
+    {
+        question: "太陽系の惑星で一番大きいのはどれですか？",
+        options: ["地球", "火星", "木星", "金星"],
+        answer: 2 // 正解は「木星」
+    },
+    {
+        question: "1+1=",
+        options: ["1", "2", "3", "4"],
+        answer: 1 // 正解は「2」
+    },
+    {
+         question: "2+3=", 
+         options: ["5", "4", "6", "3"],
+          answer: 0
+     },
+     { 
+        question: "小学生が背負うものといえば何？",
+         options: ["ランドセル", "おじさん", "ロケット", "借金"], 
+         answer: 0 
+    },
+    { 
+        question: "全然部活に来ない人のこと", 
+        options: ["部長", "帰宅部", "怨霊部員", "幽霊部員"], 
+        answer: 3 
+    },
+    { 
+        question: "Do you know yomogi?", 
+        options: ["yes", "はい", "もちろん", "うん"], answer: all 
+    },
+    // 追加の問題をここに追加できます
 ];
 
-// ゲーム状態の管理
-let questions = [];
+// 初期状態
 let currentQuestionIndex = 0;
 let score = 0;
 
-// ゲーム開始関数
+// ゲームを開始する関数
 function startGame() {
+    // タイトル画面を隠し、クイズ画面を表示
     document.getElementById("title-screen").style.display = "none";
     document.getElementById("quiz-container").style.display = "block";
 
-    // ランダムに5問選ぶ
-    questions = allQuestions.sort(() => Math.random() - 0.5).slice(0, 5);
-    score = 0;
-    currentQuestionIndex = 0;
+    // 最初の問題を読み込む
     loadQuestion();
 }
 
-// 問題を表示
+// 問題を表示する関数
 function loadQuestion() {
     let q = questions[currentQuestionIndex];
-    document.getElementById("question").innerText = q.question;
+    document.getElementById("question").innerText = q.question;  // 問題文を表示
+
+    // 選択肢をボタンに設定
     document.querySelectorAll(".option").forEach((btn, index) => {
-        btn.innerText = q.options[index];
+        btn.innerText = q.options[index];  // 各ボタンに選択肢を設定
     });
 }
 
-// 解答確認
-function checkAnswer(selectedIndex) {
-    clickSound.play();  // クリック音を鳴らす
-
+// 答えを確認する関数
+function checkAnswer(selected) {
     let q = questions[currentQuestionIndex];
-    
-    // 正解か不正解かを判定
-    if (selectedIndex === q.answer) {
+
+    // 正解かどうかを判定
+    if (selected === q.answer) {
         score++;
         alert("正解！");
     } else {
-        alert("不正解！");
+        alert("不正解。");
     }
 
-    // スコア表示の更新
-    document.getElementById("score").innerText = `スコア: ${score}`;
+    // 次の問題に進む
     currentQuestionIndex++;
-
-    // 次の問題へ、または終了
     if (currentQuestionIndex < questions.length) {
         loadQuestion();
     } else {
-        alert(`ゲーム終了！あなたのスコアは ${score} です。`);
-        resetGame();
+        // 問題が終わったらスコアを表示
+        document.getElementById("quiz-container").style.display = "none";
+        alert("ゲーム終了！ あなたのスコアは " + score + " です！");
+        document.getElementById("title-screen").style.display = "block";
+        currentQuestionIndex = 0;  // 最初から始めるためにインデックスをリセット
+        score = 0;  // スコアをリセット
     }
 }
-
-// ゲームリセット
-function resetGame() {
-    document.getElementById("quiz-container").style.display = "none";
-    document.getElementById("title-screen").style.display = "block";
-}
-
-// ページが読み込まれたときにタイトル画面を表示
-document.getElementById("title-screen").style.display = "block";
