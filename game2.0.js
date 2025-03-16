@@ -15,26 +15,27 @@ const questions = [
         options: ["1", "2", "3", "4"],
         answer: 1 // 正解は「2」
     },
-    {
-         question: "2+3=", 
-         options: ["5", "4", "6", "3"],
-          answer: 0
-     },
-     { 
-        question: "小学生が背負うものといえば何？",
-         options: ["ランドセル", "おじさん", "ロケット", "借金"], 
-         answer: 0 
-    },
-    { 
-        question: "全然部活に来ない人のこと", 
-        options: ["部長", "帰宅部", "怨霊部員", "幽霊部員"], 
-        answer: 3 
-    },
-    { 
-        question: "Do you know yomogi?", 
-        options: ["yes", "はい", "もちろん", "うん"], answer: all 
-    },
+    
     // 追加の問題をここに追加できます
+    {
+        question: "2+3=", 
+        options: ["5", "4", "6", "3"],
+         answer: 0
+    },
+    { 
+       question: "小学生が背負うものといえば何？",
+        options: ["ランドセル", "おじさん", "ロケット", "借金"], 
+        answer: 0 
+   },
+   { 
+       question: "全然部活に来ない人のこと", 
+       options: ["部長", "帰宅部", "怨霊部員", "幽霊部員"], 
+       answer: 3 
+   },
+   { 
+       question: "Do you know yomogi?", 
+       options: ["yes", "はい", "もちろん", "うん"], answer: all 
+   },
 ];
 
 // 初期状態
