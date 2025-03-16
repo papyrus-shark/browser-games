@@ -2,192 +2,136 @@
 <html lang="ja">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
-    <title>ブロック崩しゲーム</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クイズゲーム</title>
     <style>
         body {
+            font-family: "Arial", sans-serif;
+            text-align: center;
+            background-color: #f0f8ff;
             margin: 0;
             display: flex;
-            justify-content: center;
+            flex-direction: column;
             align-items: center;
+            justify-content: center;
             height: 100vh;
-            background-color: #f0f0f0;
-            overflow: hidden;
         }
-        canvas {
-            background-color: #222;
-            border: 2px solid #fff;
+        #quiz-container {
+            background: white;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+        }
+        h1 {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
+        .option {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0;
+            background: #0095DD;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        .option:hover {
+            background: #0077b6;
+        }
+        #score {
+            font-size: 18px;
+            margin-top: 10px;
         }
     </style>
 </head>
 <body>
+
     <audio id="bgm" loop>
         <source src="楽しい時間.mp3" type="audio/mp3">
     </audio>
+    <audio id="click-sound">
+        <source src="決定ボタンを押す31.mp3" type="audio/mp3">
+    </audio>
 
-    <canvas id="gameCanvas"></canvas>
+    <div id="quiz-container">
+        <h1 id="question">問題がここに表示されます</h1>
+        <button class="option" onclick="checkAnswer(0)">選択肢1</button>
+        <button class="option" onclick="checkAnswer(1)">選択肢2</button>
+        <button class="option" onclick="checkAnswer(2)">選択肢3</button>
+        <button class="option" onclick="checkAnswer(3)">選択肢4</button>
+        <p id="score">スコア: 0</p>
+    </div>
 
     <script>
-        const canvas = document.getElementById("gameCanvas");
-        const ctx = canvas.getContext("2d");
         const bgm = document.getElementById("bgm");
+        const clickSound = document.getElementById("click-sound");
 
-        function resizeCanvas() {
-            let aspectRatio = 9 / 16;
-            let width = Math.min(window.innerWidth * 0.9, 400);
-            let height = Math.min(window.innerHeight * 0.85, width / aspectRatio);
-
-            if (height > window.innerHeight - 60) {
-                height = window.innerHeight - 60;
-            }
-
-            canvas.width = width;
-            canvas.height = height;
-
-            paddleWidth = canvas.width * 0.5;
-            paddleX = (canvas.width - paddleWidth) / 2;
-        }
-
-        window.addEventListener("resize", resizeCanvas);
-        resizeCanvas();
-
-        let ballRadius = 8;
-        let x = canvas.width / 2;
-        let y = canvas.height - 40;
-        let dx = 2;
-        let dy = -2;
-
-        let paddleHeight = 8;
-        let paddleWidth = canvas.width * 0.5;
-        let paddleX = (canvas.width - paddleWidth) / 2;
-
-        let rightPressed = false;
-        let leftPressed = false;
-
-        const brickRowCount = 5;
-        const brickColumnCount = 4;
-        const brickWidth = (canvas.width - 50) / brickColumnCount;
-        const brickHeight = 15;
-        const brickPadding = 8;
-        const brickOffsetTop = 30;
-        const brickOffsetLeft = 25;
-
-        let bricks = [];
-        for (let c = 0; c < brickColumnCount; c++) {
-            bricks[c] = [];
-            for (let r = 0; r < brickRowCount; r++) {
-                bricks[c][r] = { x: 0, y: 0, status: 1 };
-            }
-        }
-
-        function keyDownHandler(e) {
-            if (e.key === "Right" || e.key === "ArrowRight") rightPressed = true;
-            if (e.key === "Left" || e.key === "ArrowLeft") leftPressed = true;
-        }
-
-        function keyUpHandler(e) {
-            if (e.key === "Right" || e.key === "ArrowRight") rightPressed = false;
-            if (e.key === "Left" || e.key === "ArrowLeft") leftPressed = false;
-        }
-
-        canvas.addEventListener("touchmove", function (e) {
-            let touchX = e.touches[0].clientX;
-            let relativeX = touchX - canvas.getBoundingClientRect().left;
-
-            if (relativeX > 0 && relativeX < canvas.width) {
-                paddleX = relativeX - paddleWidth / 2;
-                if (paddleX < 0) paddleX = 0;
-                if (paddleX > canvas.width - paddleWidth) paddleX = canvas.width - paddleWidth;
-            }
-            e.preventDefault();
-        });
-
-        function drawBricks() {
-            for (let c = 0; c < brickColumnCount; c++) {
-                for (let r = 0; r < brickRowCount; r++) {
-                    if (bricks[c][r].status === 1) {
-                        let brickX = c * (brickWidth + brickPadding) + brickOffsetLeft;
-                        let brickY = r * (brickHeight + brickPadding) + brickOffsetTop;
-                        bricks[c][r].x = brickX;
-                        bricks[c][r].y = brickY;
-                        ctx.beginPath();
-                        ctx.rect(brickX, brickY, brickWidth, brickHeight);
-                        ctx.fillStyle = "#0095DD";
-                        ctx.fill();
-                        ctx.closePath();
-                    }
-                }
-            }
-        }
-
-        function drawBall() {
-            ctx.beginPath();
-            ctx.arc(x, y, ballRadius, 0, Math.PI * 2);
-            ctx.fillStyle = "#FF5733";
-            ctx.fill();
-            ctx.closePath();
-        }
-
-        function drawPaddle() {
-            ctx.beginPath();
-            ctx.rect(paddleX, canvas.height - paddleHeight, paddleWidth, paddleHeight);
-            ctx.fillStyle = "#0095DD";
-            ctx.fill();
-            ctx.closePath();
-        }
-
-        function collisionDetection() {
-            for (let c = 0; c < brickColumnCount; c++) {
-                for (let r = 0; r < brickRowCount; r++) {
-                    let b = bricks[c][r];
-                    if (b.status === 1) {
-                        if (x > b.x && x < b.x + brickWidth && y > b.y && y < b.y + brickHeight) {
-                            dy = -dy;
-                            b.status = 0;
-                        }
-                    }
-                }
-            }
-        }
-
-        function draw() {
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            drawBricks();
-            drawBall();
-            drawPaddle();
-            collisionDetection();
-
-            if (x + dx > canvas.width - ballRadius || x + dx < ballRadius) dx = -dx;
-            if (y + dy < ballRadius) dy = -dy;
-            else if (y + dy > canvas.height - ballRadius) {
-                if (x > paddleX && x < paddleX + paddleWidth) {
-                    dy = -dy;
-                } else {
-                    document.location.reload();
-                }
-            }
-
-            if (rightPressed && paddleX < canvas.width - paddleWidth) paddleX += 7;
-            else if (leftPressed && paddleX > 0) paddleX -= 7;
-
-            x += dx;
-            y += dy;
-            requestAnimationFrame(draw);
-        }
-
-        document.addEventListener("keydown", keyDownHandler, false);
-        document.addEventListener("keyup", keyUpHandler, false);
-
-        // ** BGM の開始 **
         document.addEventListener("click", () => bgm.play(), { once: true });
-
-        // ** ページを離れたらBGMを停止 **
         document.addEventListener("visibilitychange", () => {
             if (document.hidden) bgm.pause();
             else bgm.play();
         });
 
-        draw();
+        const questions = [
+            { 
+                question: "日本の首都はどこ？",
+                options: ["大阪", "東京", "京都", "福岡"],
+                answer: 1
+            },
+            { 
+                question: "地球は何番目の惑星？",
+                options: ["3番目", "4番目", "5番目", "6番目"],
+                answer: 0
+            },
+            { 
+                question: "富士山の標高は？",
+                options: ["3,776m", "2,500m", "4,001m", "3,000m"],
+                answer: 0
+            }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        function loadQuestion() {
+            let q = questions[currentQuestionIndex];
+            document.getElementById("question").innerText = q.question;
+            document.querySelectorAll(".option").forEach((btn, index) => {
+                btn.innerText = q.options[index];
+            });
+        }
+
+        function checkAnswer(selectedIndex) {
+            clickSound.play();
+            let q = questions[currentQuestionIndex];
+
+            if (selectedIndex === q.answer) {
+                score++;
+                alert("正解！");
+            } else {
+                alert("不正解！");
+            }
+
+            document.getElementById("score").innerText = `スコア: ${score}`;
+            currentQuestionIndex++;
+
+            if (currentQuestionIndex < questions.length) {
+                loadQuestion();
+            } else {
+                alert(`ゲーム終了！あなたのスコアは ${score} です。`);
+                currentQuestionIndex = 0;
+                score = 0;
+                loadQuestion();
+            }
+        }
+
+        loadQuestion();
     </script>
+
 </body>
 </html>
