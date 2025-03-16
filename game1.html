@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>クリッカーゲーム</title>
+    <!-- Google FontsからPoppinsフォントを読み込む -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+
+    <style>
+        body { 
+            text-align: center; 
+            font-family: 'Poppins', sans-serif; /* ポップなフォントを適用 */
+            background-image: url('IMG_0756.png'); /* 背景画像を指定 */
+            background-size: cover; /* 背景画像を画面いっぱいに */
+            background-position: center; /* 画像の位置を中央に */
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column; /* 縦並びにする */
+        }
+
+        #game-container {
+            position: relative;
+            width: 80vw; /* ゲーム領域を広げる */
+            height: 70vh; /* 高さを調整 */
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        #target {
+            width: 200px; /* 画像を大きく */
+            cursor: pointer;
+        }
+
+        #info {
+            font-size: 28px; /* フォントサイズを大きく */
+            margin: 20px;
+            color:rgb(22, 0, 72) ; /* 白文字 */
+            font-weight: 600; /* 太字にする */
+        }
+
+        #start-btn {
+            font-size: 18px;
+            padding: 5px 10px;
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.5); /* 半透明背景 */
+            color: white;
+            border: none;
+            border-radius: 5px;
+            margin-top: 5px; /* スタートボタンとゲーム領域の間に少しスペースを追加 */
+        }
+    </style>
+</head>
+<body>
+    <div>
+        
+        <p id="info">score: <span id="score">0</span></p>
+    
+        <div id="game-container">
+            <img id="target" src="BB.png" alt="クリック対象">
+        </div>
+
+        <button id="start-btn">スタート</button>
+
+        <audio id="bgm" loop>
+            <source src="楽しい時間.mp3" type="audio/mpeg"> <!-- BGMを指定 -->
+        </audio>
+    </div>
+
+    <script>
+        let score = 0;
+        let gameActive = false;
+        let startBtn = document.getElementById("start-btn");
+        let target = document.getElementById("target");
+        let bgm = document.getElementById("bgm");
+
+        // 🔽 BGMの音量を小さくする
+        bgm.volume = 0.2; // 音量20%
+
+        function increaseScore() {
+            if (!gameActive) return;
+            score++;
+            document.getElementById("score").innerText = score;
+
+            // 🔽 効果音の音量を小さくする
+            let clickSound = new Audio("決定ボタンを押す31.mp3"); <!-- クリック音を指定 -->
+            clickSound.volume = 0.3; // 音量30%
+            clickSound.play();
+        }
+
+        function startGame() {
+            if (gameActive) return;
+
+            score = 0;
+            gameActive = true;
+            document.getElementById("score").innerText = score;
+            startBtn.style.visibility = "hidden";
+
+            bgm.play();
+        }
+
+        function endGame() {
+            gameActive = false;
+            startBtn.style.visibility = "visible";
+            alert("ゲーム終了！スコア: " + score);
+        }
+
+        document.addEventListener("visibilitychange", function() {
+            if (document.hidden) {
+                bgm.pause();
+            } else if (gameActive) {
+                bgm.play();
+            }
+        });
+
+        startBtn.addEventListener("click", startGame);
+        target.addEventListener("click", increaseScore);
+        target.addEventListener("touchstart", increaseScore);
+    </script>
+</body>
+</html>
