@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ゲームリンク集</title>
+
+    <!-- Google Fontsからおしゃれなフォントを読み込む -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&family=Quicksand:wght@400;500&display=swap" rel="stylesheet">
+
+    <style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            background-color: #f9f9f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+            flex-direction: column;
+            height: 100%;
+            text-align: center;
+            width: 100%;
+        }
+
+        h1 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 3em;
+            margin-bottom: 20px;
+            color: #333;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+        }
+
+        /* サイトの説明部分 */
+        .description {
+            width: 80%;
+            max-width: 1000px;
+            margin-bottom: 40px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            font-family: 'Quicksand', sans-serif;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .description h2 {
+            font-size: 2.5em;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .description p {
+            font-size: 1.2em;
+            color: #666;
+            line-height: 1.6;
+        }
+
+        .container {
+            display: flex;
+            flex-direction: column; /* カードを縦に並べる */
+            align-items: center; /* 横並びでも中央寄せにする */
+            gap: 20px;
+            width: 100%;
+            max-width: 1200px;
+            margin-top: 20px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .game-card {
+            background: #fff;
+            border-radius: 10px;
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+            width: 80%; /* 横長に調整（画面の80%幅） */
+            height: 200px; /* 高さを設定 */
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            cursor: pointer;
+            display: flex;
+            flex-direction: row; /* 横長にする */
+            align-items: center; /* 中央揃え */
+        }
+
+        .game-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+        }
+
+        .game-card img {
+            width: 40%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .game-card .content {
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 60%;
+        }
+
+        .game-card h3 {
+            font-family: 'Quicksand', sans-serif;
+            font-size: 1.5em;
+            margin: 10px 0;
+            color: #333;
+        }
+
+        .game-card p {
+            font-size: 1.1em;
+            color: #777;
+            margin-bottom: 20px;
+        }
+
+        .game-card a {
+            display: inline-block;
+            padding: 12px 30px;
+            background-color: #ff6f61;
+            color: #fff;
+            text-decoration: none;
+            border-radius: 25px;
+            font-weight: 500;
+            transition: background-color 0.3s ease;
+        }
+
+        .game-card a:hover {
+            background-color: #ff4f3a;
+        }
+
+        /* スマホ対応 */
+        @media (max-width: 768px) {
+            .game-card {
+                width: 90vw; /* スマホでの幅調整 */
+                height: auto; /* 高さを自動に設定 */
+            }
+
+            .game-card img {
+                width: 35%;
+            }
+
+            .game-card .content {
+                width: 65%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div>
+        <!-- サイトの説明部分 -->
+        <div class="description">
+            <h2>ゲームリンク集</h2>
+            <p>こちらのリンク集では、さまざまな面白いブラウザゲームを紹介しています。クリックするだけで簡単にゲームを楽しむことができ、どのゲームも無料でプレイ可能です。自分にぴったりなゲームを見つけて、さっそく遊んでみましょう！</p>
+        </div>
+
+        <!-- ゲームリンクカード -->
+        <div class="container">
+            <!-- ゲーム1 -->
+            <div class="game-card">
+                <img src="rome.png" alt="ゲーム1">
+                <div class="content">
+                    <h3>クリッカーゲーム</h3>
+                    <p>楽しく遊べるクリッカーゲーム！</p>
+                    <a href="game1.html" target="_blank">プレイする</a>
+                </div>
+            </div>
+
+            <!-- ゲーム2（例） -->
+            <div class="game-card">
+                <img src="game2-thumbnail.jpg" alt="ゲーム2">
+                <div class="content">
+                    <h3>ゲーム2タイトル</h3>
+                    <p>ゲーム2の簡単な説明。</p>
+                    <a href="game2.html" target="_blank">プレイする</a>
+                </div>
+            </div>
+
+            <!-- ゲーム3（例） -->
+            <div class="game-card">
+                <img src="game3-thumbnail.jpg" alt="ゲーム3">
+                <div class="content">
+                    <h3>ゲーム3タイトル</h3>
+                    <p>ゲーム3の簡単な説明。</p>
+                    <a href="game3.html" target="_blank">プレイする</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
