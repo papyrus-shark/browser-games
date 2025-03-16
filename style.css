@@ -1,0 +1,81 @@
+/* ゲーム全体のスタイル */
+body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url('IMG_0756.jpg');
+    background-size: cover;
+    background-position: center;
+    text-align: center;
+}
+
+/* タイトル画面 */
+#title-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* クイズ画面 */
+#quiz-container {
+    display: none;
+    width: 90%;
+    max-width: 500px; /* 最大幅を500pxに設定 */
+    padding: 20px;
+    background-color: rgba(255, 255, 255, 0.7); /* 背景に半透明の白を追加 */
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* 問題のテキスト */
+#question {
+    font-size: 1.5em;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+/* 選択肢ボタン */
+button.option {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin: 10px 0;
+    font-size: 1.2em;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.option:hover {
+    background-color: #45a049;
+}
+
+/* スコア */
+#score {
+    margin-top: 20px;
+    font-size: 1.2em;
+    color: #333;
+}
+
+/* スマホ用のレスポンシブデザイン */
+@media (max-width: 600px) {
+    #quiz-container {
+        width: 100%;
+        padding: 10px;
+    }
+
+    #question {
+        font-size: 1.2em;
+    }
+
+    button.option {
+        font-size: 1em;
+    }
+}
