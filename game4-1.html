@@ -1,0 +1,27 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>遅刻しそうな男のアクションゲーム</title>
+    <link rel="stylesheet" href="style4-1.css">
+</head>
+<body>
+    <div id="game-container">
+        <canvas id="gameCanvas"></canvas>
+        <div id="game-over" class="hidden">
+            <button onclick="retryGame()">リトライ</button>
+        </div>
+    </div>
+    <div id="section-select">
+        <button onclick="startGame('school')">学校</button>
+        <button onclick="startGame('office')">職場</button>
+        <button onclick="startGame('moon')">月</button>
+    </div>
+    <audio id="bgm" loop>
+        <source src="楽しい時間.mp3" type="audio/mp3">
+    </audio>
+    <script src="game4-1.js"></script>
+</body>
+</html>
