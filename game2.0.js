@@ -34,7 +34,7 @@ const questions = [
    },
    { 
        question: "Do you know yomogi?", 
-       options: ["yes", "はい", "もちろん", "うん"], answer: all 
+       options: ["yes", "はい", "もちろん", "うん"], answer: any 
    },
 ];
 

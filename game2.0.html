@@ -21,6 +21,7 @@
             <button class="option" onclick="checkAnswer(1)"></button>
             <button class="option" onclick="checkAnswer(2)"></button>
             <button class="option" onclick="checkAnswer(3)"></button>
+            <button class="option" onclick="checkanswer(any)"></button>
         </div>
         <p id="score">スコア: 0</p>
     </div>
@@ -31,21 +32,8 @@
     <audio id="click-sound" src="決定ボタンを押す31.mp3"></audio>
 
     <!-- game2.0.js をリンク -->
-    <script src="game2.0.js">
-    // 🔽 BGMの音量を小さくする
-    bgm.volume = 0.2; // 音量20%
-
-function increaseScore() {
-    if (!gameActive) return;
-    score++;
-    document.getElementById("score").innerText = score;
-
-    // 🔽 効果音の音量を小さくする
-    let clickSound = new Audio("決定ボタンを押す31.mp3"); <!-- クリック音を指定 -->
-    clickSound.volume = 0.3; // 音量30%
-    clickSound.play();
-}
-    </script>
+    <script src="game2.0.js"></script>
+    
 
 </body>
 </html>
