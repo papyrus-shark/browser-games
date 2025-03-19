@@ -1,90 +1,145 @@
-// クイズの問題と選択肢
-const questions = [
+const quiz = [
     {
-        question: "日本の首都はどこですか？",
-        options: ["京都", "大阪", "東京", "福岡"],
-        answer: 2 // 正解は「東京」
+        question: 'Q1. よもぎの誕生日は？',
+        choices: [
+            '３月１４日',
+            '２月１４日',
+            '４月２１日',
+            '８月１２日'
+        ],
+        correct: '３月１４日'
     },
     {
-        question: "太陽系の惑星で一番大きいのはどれですか？",
-        options: ["地球", "火星", "木星", "金星"],
-        answer: 2 // 正解は「木星」
+        question: 'Q2. よもぎに３万円借金している人物は誰？',
+        choices: [
+            '海軍大将',
+            '今湶龍之介',
+            'ロメ',
+            'よもぎ'
+        ],
+        correct: 'ロメ'
     },
     {
-        question: "1+1=",
-        options: ["1", "2", "3", "4"],
-        answer: 1 // 正解は「2」
-    },
-    
-    // 追加の問題をここに追加できます
+        question: 'Q3. 「有り得ない話し⁉」で有名な力士といえば？',
+        choices: [
+            '朝青龍',
+            '青朝龍',
+            '加須の富士',
+            '明徳（アッキー）'
+        ],
+        correct: '朝青龍'
+    },龍
     {
-        question: "2+3=", 
-        options: ["5", "4", "6", "3"],
-         answer: 0
+        question: 'Q4. 小説「Crisis Heart」に出てくる神無月イアの正体は？',
+        choices: [
+            'たちゃんか',
+            'イアのおばあちゃん',
+            '近所のおばさん',
+            '八千代'
+        ],
+        correct: '八千代'
     },
-    { 
-       question: "小学生が背負うものといえば何？",
-        options: ["ランドセル", "おじさん", "ロケット", "借金"], 
-        answer: 0 
-   },
-   { 
-       question: "全然部活に来ない人のこと", 
-       options: ["部長", "帰宅部", "怨霊部員", "幽霊部員"], 
-       answer: 3 
-   },
-   { 
-       question: "Do you know yomogi?", 
-       options: ["yes", "はい", "もちろん", "うん"], answer: any 
-   },
-];
+    {
+        question: 'Q5. 納豆とミカンを一緒に食べるとどうなる？',
+        choices: [
+            'まずい',
+            '黒い鞭状のエネルギーを放出する',
+            'みかんが体内で発酵する',
+            'トイレから出られなくなる'
+        ],
+        correct: 'まずい'
+    },
+    {
+        question: 'Q6. 黒〇野さんのイラストを無断で使用している人物は？',
+        choices: [
+            'たやか',
+            'かやた',
+            'たかな',
+            'たかや'
+        ],
+        correct: 'たかや'
+    },
+    {
+        question: 'Q7. えぬの知り合いは？',
+        choices: [
+            'カエル',
+            '青チャ',
+            'カエルのぬいぐるみで遊んでいた人',
+            'ヤギニキ'
+        ],
+        correct: 'カエルのぬいぐるみで遊んでいた人'
+    },
+    {
+        question: 'Q8. 次のうち、たっけーの発言はどれ？',
+        choices: [
+            '感無量なんだだっけー',
+            'ぼくの時代…来ちゃったかもだっけー☆☆',
+            '福生に来たナリよ～',
+            'たっけ～（笑）'
+        ],
+        correct: '感無量なんだだっけー'
+    },
+    {
+        question: 'Q9. ピ〇チュウのメスの尻尾の形は？',
+        choices: [
+            '星',
+            '六角形',
+            '直角三角形',
+            'ハート'
+        ],
+        correct: 'ハート'
+    },
+    {
+        question: 'Q10. ２５＾２は６２５ですが、２４＾２の答えは？',
+        choices: [
+            '５８６',
+            '５３６',
+            '５５６',
+            '５７６'
+        ],
+        correct: '５７６'
+    },
+]
 
-// 初期状態
-let currentQuestionIndex = 0;
+const quizLength = quiz.length;
+let quizIndex = 0;
 let score = 0;
 
-// ゲームを開始する関数
-function startGame() {
-    // タイトル画面を隠し、クイズ画面を表示
-    document.getElementById("title-screen").style.display = "none";
-    document.getElementById("quiz-container").style.display = "block";
+const button = document.getElementsByTagName('button');
+const buttonLength = button.length;
 
-    // 最初の問題を読み込む
-    loadQuestion();
+const setupQuiz = () => {
+    document.getElementById('question').textContent = quiz[quizIndex].question;
+    let buttonIndex = 0;
+    while(buttonIndex < buttonLength) {
+        button[buttonIndex].textContent = quiz[quizIndex].choices[buttonIndex];
+        buttonIndex++;
+    }
 }
 
-// 問題を表示する関数
-function loadQuestion() {
-    let q = questions[currentQuestionIndex];
-    document.getElementById("question").innerText = q.question;  // 問題文を表示
+setupQuiz();
 
-    // 選択肢をボタンに設定
-    document.querySelectorAll(".option").forEach((btn, index) => {
-        btn.innerText = q.options[index];  // 各ボタンに選択肢を設定
-    });
-}
-
-// 答えを確認する関数
-function checkAnswer(selected) {
-    let q = questions[currentQuestionIndex];
-
-    // 正解かどうかを判定
-    if (selected === q.answer) {
+const clickHandler = (e) => {
+    if (quiz[quizIndex].correct === e.target.textContent) {
+        window.alert("正解！");
         score++;
-        alert("正解！");
     } else {
-        alert("不正解。");
+        window.alert("不正解！");
     }
 
-    // 次の問題に進む
-    currentQuestionIndex++;
-    if (currentQuestionIndex < questions.length) {
-        loadQuestion();
+    quizIndex++;
+
+    if (quizIndex < quizLength) {
+        setupQuiz();
     } else {
-        // 問題が終わったらスコアを表示
-        document.getElementById("quiz-container").style.display = "none";
-        alert("ゲーム終了！ あなたのスコアは " + score + " です！");
-        document.getElementById("title-screen").style.display = "block";
-        currentQuestionIndex = 0;  // 最初から始めるためにインデックスをリセット
-        score = 0;  // スコアをリセット
+        window.alert('終了！あなたの正解数は' + score + '/' + quizLength + 'です！');
     }
+}
+
+let handlerIndex = 0;
+while(handlerIndex < buttonLength) {
+    button[handlerIndex].addEventListener('click', (e) => {
+        clickHandler(e);
+    });
+    handlerIndex++;
 }
